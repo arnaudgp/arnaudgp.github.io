@@ -1,13 +1,119 @@
-<h1>
-    Arnaud's games
-</h1>
-<p>
-    <ul>
-        <li>
-            <a href="games/1480.html">Guess a number between 1 and 1480</a>
-        </li>
-        <li>
-            <a href="games/year.html">Guess the year</a>
-        </li>
-    </ul>
-</p>
+<html>
+    <head>
+        <style>
+            body {
+                padding: 30px;
+                font-family: Verdana, Geneva, Tahoma, sans-serif;
+            }
+            h1 { 
+                font-size: 30px;
+                color: tomato;
+            }
+            input {
+                padding: 5px;
+                font-size: larger;
+            }
+        </style>
+    </head>
+    <body>
+
+        <h1>
+            Guess a number between 1 and 1480
+        </h1>                
+        <p>
+            Guess a number and press enter...
+        </p>
+        
+        <input id="guessing_field" type="text">
+
+        <p id="guesses_text"></p>
+        
+        <p id="results_text"></p>
+        
+        <input id="reset_button" type="submit" value="Try again">
+
+    </body>
+    <script>
+
+        let secret = undefined;
+        let guesses = undefined;
+        let outputText = undefined;
+
+        const inputField = document.getElementById('guessing_field');
+        const guessesText = document.getElementById('guesses_text');
+        const resultsText = document.getElementById('results_text');
+        const resetButton = document.getElementById('reset_button');
+
+        function startOrResetGame() {
+            secret = Math.floor(Math.random() * 1480) + 1;
+            guesses = 10;
+            outputText = '';
+
+            inputField.disabled = false;
+            inputField.focus();
+
+            resetButton.hidden = true;
+
+            addOutputText("");
+        }
+
+        function addOutputText(textLine) {
+            outputText = outputText + "<br>" + textLine;
+
+            replaceResults();
+        }
+
+        function replaceResults() {
+            resultsText.innerHTML = outputText;
+        }
+
+        function processGuess(input) {
+            guesses = guesses - 1;
+
+            guessesText.innerHTML = guesses + " guesses left";
+
+            let much = Math.abs(input - secret) > 350 ? ' much' : '';
+
+            if (input > secret) {
+                addOutputText("It's" + much + " lower than " + input);
+            } else if (input < secret) {
+                addOutputText("It's" + much + " higher than " + input);
+            } else if (input == secret) {
+                addOutputText("You got it!! It was " + input);
+            
+                inputField.disabled = true;
+                resetButton.hidden = false;
+                guessesText.innerHTML = "";
+            }
+
+            if (input > 1480) {
+                addOutputText("Why would you even try that?!!?!?!");
+            }
+
+            if (guesses <= 0) {
+                addOutputText("");
+                addOutputText("Game over! It was " + secret);
+
+                inputField.disabled = true;
+                resetButton.hidden = false;
+                guessesText.innerHTML = "";
+            }
+        }
+
+        function submitGuess(event) {
+            if (event.key == 'Enter') {
+                let inputFieldValue = inputField.value;
+
+                processGuess(inputFieldValue);
+
+                inputField.value = '';
+            }
+        }
+
+        startOrResetGame();
+
+        inputField.addEventListener('keypress', submitGuess);
+        resetButton.addEventListener('click', startOrResetGame);
+
+    </script>        
+</html>
