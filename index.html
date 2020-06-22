@@ -79,11 +79,12 @@
             } else if (input < secret) {
                 addOutputText("It's" + much + " higher than " + input);
             } else if (input == secret) {
+                addOutputText("");
                 addOutputText("You got it!! It was " + input);
             
-                inputField.disabled = true;
-                resetButton.hidden = false;
-                guessesText.innerHTML = "";
+                setGameOver();
+
+                return;
             }
 
             if (input > 1480) {
@@ -94,10 +95,14 @@
                 addOutputText("");
                 addOutputText("Game over! It was " + secret);
 
-                inputField.disabled = true;
-                resetButton.hidden = false;
-                guessesText.innerHTML = "";
+                setGameOver();
             }
+        }
+
+        function setGameOver() {
+            inputField.disabled = true;
+            resetButton.hidden = false;
+            guessesText.innerHTML = "";
         }
 
         function submitGuess(event) {
