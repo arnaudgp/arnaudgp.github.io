@@ -20,9 +20,9 @@
             click your choice
         </p>
         
-        <input id="rock_button" type="submit" value=rock>
-        <input id="paper_button" type="submit" value=paper>
-        <input id="scissors_button" type="submit" value=scissors>
+        <img id="rock_button" src="images/rock.jpg" width="150px" height="150px" data-value="rock">
+        <img id="paper_button" src="images/paper.png" width="150px" height="150px" data-value="paper">
+        <img id="scissors_button" src="images/scissors.jpg" width="150px" height="150px" data-value="scissors">
         
         <input id="reset_button" type="submit" value="Try again">
 
@@ -53,11 +53,13 @@
         scissorsButton.addEventListener('click', makeGuess);
 
         function makeGuess(e) {
-            if (e.target.value == "rock") {
+            value = e.target.dataset['value'];
+
+            if (value == "rock") {
                 input = 1;
-            } else if (e.target.value == "paper") {
+            } else if (value == "paper") {
                 input = 2;
-            } else if (e.target.value == "scissors") {
+            } else if (value == "scissors") {
                 input = 3;
             }
 
